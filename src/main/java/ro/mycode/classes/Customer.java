@@ -1,5 +1,12 @@
 package ro.mycode.classes;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Customer {
 
     private int id;
@@ -15,5 +22,26 @@ public class Customer {
         this.fullName = fullName;
         this.billingAddress = billingAddress;
         this.phone = phone;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        Customer customer = (Customer) o;
+        return customer.id == this.id;
+    }
+
+    @Override
+    public String toString(){
+
+        String text = "";
+        text += "\nID: " + id;
+        text += "\nemail: "+ email;
+        text += "\npassword: "+password;
+        text += "\nfullname: "+fullName;
+        text += "\naddress: "+billingAddress;
+        text += "\nphone: "+ phone;
+
+        return text;
     }
 }

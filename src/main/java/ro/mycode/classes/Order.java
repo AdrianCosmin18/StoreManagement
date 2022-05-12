@@ -1,20 +1,36 @@
 package ro.mycode.classes;
 
-import java.time.LocalDateTime;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Order {
 
     private int id;
     private int customerId;
-    private int ammount;
+    private double ammount;
     private String orderAddress;
-    private LocalDateTime orderDate;
+    private Date orderDate;
 
 
-    public Order(int customerId, int ammount, String orderAddress, LocalDateTime orderDate) {
+    public Order(int customerId, double ammount, String orderAddress, Date orderDate) {
         this.customerId = customerId;
         this.ammount = ammount;
         this.orderAddress = orderAddress;
         this.orderDate = orderDate;
+    }
+
+    @Override
+    public boolean equals(Object o){
+
+        Order order = (Order) o;
+        return this.id  == order.id;
     }
 }

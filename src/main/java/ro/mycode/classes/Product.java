@@ -22,4 +22,17 @@ public class Product {
         this.description = description;
         this.stock = stock;
     }
+
+    @Override
+    public String toString(){
+
+        String text = "";
+        text += "\nID: " + id;
+        text += "\nName: " + name;
+        text += "\nPrice: " + price;
+        text += "\nDescription: " + description;
+        text += "\nStock: " + stock;
+
+        return text;
+    }
 }
