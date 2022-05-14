@@ -4,10 +4,12 @@ import ro.mycode.classes.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
-//APROAPE NIMIC TESTAT
+
 public class OrderRepository extends Repository<Order>{
 
     public OrderRepository(){
@@ -57,7 +59,8 @@ public class OrderRepository extends Repository<Order>{
 
             while (set.next()){
 
-                Order order = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), set.getDate(5));
+                LocalDate localDate = Util.toDate(set.getString(5));
+                Order order = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), localDate);
                 orders.add(order);
             }
             return orders;
@@ -73,7 +76,7 @@ public class OrderRepository extends Repository<Order>{
     protected void update(Order order) {
 
         String text = "";
-        text += String.format("update orders set customerId = %d, ammount = %.2f, orderAddress = '%s', orderDate = '%s' where id = %d", order.getCustomerId(), order.getAmmount(), order.getOrderAddress(), order.getOrderAddress(), order.getId());
+        text += String.format("update orders set customer_id = %d, ammount = %.2f, order_address = '%s', order_date = '%s' where id = %d", order.getCustomerId(), order.getAmmount(), order.getOrderAddress(), order.getOrderDate(), order.getId());
         executeStatement(text);
     }
 
@@ -86,7 +89,8 @@ public class OrderRepository extends Repository<Order>{
             ResultSet set = statement.getResultSet();
             if (set.next()){
 
-                Order order2 = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), set.getDate(5));
+                LocalDate localDate = Util.toDate(set.getString(5));
+                Order order2 = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), localDate);
                 return order2.equals(order);
             }
 

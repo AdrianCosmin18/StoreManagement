@@ -28,7 +28,6 @@ public abstract class Repository<T> {
             statement.execute(execute);
         }catch (SQLException e){
 
-            e.printStackTrace();
             System.out.println("Nu s-a reusit: " + execute);
         }
     }

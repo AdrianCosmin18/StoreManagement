@@ -22,4 +22,11 @@ public class OrderDetails {
         this.price = price;
         this.quantity = quantity;
     }
+
+    @Override
+    public boolean equals(Object o){
+
+        OrderDetails orderDetails = (OrderDetails) o;
+        return this.id == orderDetails.id;
+    }
 }

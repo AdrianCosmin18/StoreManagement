@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-//NIMIC TESTAT
 public class OrderDetailsRepository extends Repository<OrderDetails> {
 
     public OrderDetailsRepository(){

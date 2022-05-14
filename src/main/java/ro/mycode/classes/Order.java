@@ -17,10 +17,10 @@ public class Order {
     private int customerId;
     private double ammount;
     private String orderAddress;
-    private Date orderDate;
+    private LocalDate orderDate;
 
 
-    public Order(int customerId, double ammount, String orderAddress, Date orderDate) {
+    public Order(int customerId, double ammount, String orderAddress, LocalDate orderDate) {
         this.customerId = customerId;
         this.ammount = ammount;
         this.orderAddress = orderAddress;
@@ -33,4 +33,6 @@ public class Order {
         Order order = (Order) o;
         return this.id  == order.id;
     }
+
+
 }

@@ -18,7 +18,30 @@ class OrderDetailsRepositoryTest {
     public void testInsert(){
 
         OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
-        orderDetailsRepository.insert(new OrderDetails(1,5,5.9,2));
+        orderDetailsRepository.insert(new OrderDetails(1,7,5.9,2));
+    }
+
+    @Test
+    public void testDelete(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        orderDetailsRepository.delete(26);
+        System.out.println(orderDetailsRepository.all());
+    }
+
+    @Test
+    public void testUpdate(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        orderDetailsRepository.update(new OrderDetails(22, 1, 7, 47, 3));
+        System.out.println(orderDetailsRepository.all());
+    }
+
+    @Test
+    public void testContains(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        System.out.println(orderDetailsRepository.contains(new OrderDetails(20, 0, 9, 0, 3)));
     }
 
 }

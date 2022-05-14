@@ -15,41 +15,35 @@ import java.util.Locale;
 
 class OrderRepositoryTest {
 
-    //nu stiu cum sa creez un Date in java
+
     @Test
-    public void testInsert() throws ParseException {
+    public void testInsert() {
 
         OrderRepository orderRepository = new OrderRepository();
-
-//        //convert String to Date
-//        String string = "July 2, 2010";
-//        DateFormat format = new SimpleDateFormat("MMMM dd, yyyy", Locale.ENGLISH);
-//        Date date = format.parse(string);
-        Date date1 = new SimpleDateFormat("dd/MM/yyyy").parse("18/12/2015");
-
-        orderRepository.insert(new Order(5, 14.5, "Timisul de Jos 3", date1));
+        orderRepository.insert(new Order(40, 100, "Callatis 13", LocalDate.parse("2022-05-14")));
     }
 
     @Test
     public void testDelete(){
 
         OrderRepository orderRepository = new OrderRepository();
-        orderRepository.delete(2);
+        orderRepository.delete(7);
+        System.out.println(orderRepository.all());
     }
 
     @Test
-    public void testALl(){
+    public void testAll(){
 
         OrderRepository orderRepository = new OrderRepository();
         System.out.println(orderRepository.all());
     }
 
-    //nu pot testa pt ca nu stiu cum sa creez un Date in java
     @Test
     public void testUpdate(){
 
         OrderRepository orderRepository = new OrderRepository();
-        //Order order = new Order(4, 60, 90.9, "Drummul Castanelor 10", "2021-09-20");
+        Order order = new Order(4, 1, 90.9, "Drummul Castanelor 10", LocalDate.parse("2021-09-20"));
+        orderRepository.update(order);
     }
 
     //nu pot testa pt ca nu stiu cum sa creez un Date in java
@@ -57,7 +51,7 @@ class OrderRepositoryTest {
     public void testContains(){
 
         OrderRepository orderRepository = new OrderRepository();
-        //orderRepository.contains(new Order(4,5,100,"Acasa 1", ))
+        System.out.println(orderRepository.contains(new Order(8,5,100,"Acasa 1", LocalDate.parse("2021-09-20"))));
     }
 
 
