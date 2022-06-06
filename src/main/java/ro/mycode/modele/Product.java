@@ -1,4 +1,4 @@
-package ro.mycode.classes;
+package ro.mycode.modele;
 
 
 import lombok.AllArgsConstructor;
@@ -35,4 +35,6 @@ public class Product {
 
         return text;
     }
+
+
 }

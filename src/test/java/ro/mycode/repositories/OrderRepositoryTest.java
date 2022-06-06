@@ -1,16 +1,9 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
-import ro.mycode.classes.Order;
+import ro.mycode.modele.Order;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.Locale;
 
 
 class OrderRepositoryTest {
@@ -46,12 +39,19 @@ class OrderRepositoryTest {
         orderRepository.update(order);
     }
 
-    //nu pot testa pt ca nu stiu cum sa creez un Date in java
     @Test
     public void testContains(){
 
         OrderRepository orderRepository = new OrderRepository();
         System.out.println(orderRepository.contains(new Order(8,5,100,"Acasa 1", LocalDate.parse("2021-09-20"))));
+    }
+
+    @Test
+    public void testGetOrderByCustomerIdAndLocalDate(){
+
+        OrderRepository orderRepository = new OrderRepository();
+        System.out.println(orderRepository.getOrderByCustomerIdAndDateAndAmmount0(1, "2022-05-07"));
+        System.out.println(LocalDate.now());
     }
 
 

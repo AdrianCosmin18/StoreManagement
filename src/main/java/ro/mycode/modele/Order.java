@@ -1,12 +1,10 @@
-package ro.mycode.classes;
+package ro.mycode.modele;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -14,8 +12,8 @@ import java.util.Date;
 public class Order {
 
     private int id;
-    private int customerId;
-    private double ammount;
+    private int customerId;//price
+    private double ammount;//customerID
     private String orderAddress;
     private LocalDate orderDate;
 
@@ -31,7 +29,20 @@ public class Order {
     public boolean equals(Object o){
 
         Order order = (Order) o;
-        return this.id  == order.id;
+        return this.customerId==order.getCustomerId()&&this.orderDate.equals(order.getOrderDate());
+    }
+
+    @Override
+    public String toString(){
+
+        String text = "";
+        text += "\nID: " + id;
+        text += "\nCustomer id: " + customerId;
+        text += "\nAmmount: " + ammount;
+        text += "\nOrder address: " +orderAddress;
+        text += "\nOrder date: " + orderDate;
+
+        return text;
     }
 
 

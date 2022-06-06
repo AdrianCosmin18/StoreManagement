@@ -1,10 +1,11 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
-import ro.mycode.classes.Order;
-import ro.mycode.classes.OrderDetails;
+import ro.mycode.modele.OrderDetails;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class OrderDetailsRepository extends Repository<OrderDetails> {
@@ -15,7 +16,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected void insert(OrderDetails orderDetails) {
+    public void insert(OrderDetails orderDetails) {
 
         String text = "";
         text += "insert into order_details (order_id, product_id, price ,quantity) values(";
@@ -26,7 +27,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected void delete(int id) {
+    public void delete(int id) {
 
         String text = "";
         text += String.format("delete from order_details where id = %d ;", id);
@@ -34,7 +35,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected ResultSet allResultSet() {
+    public ResultSet allResultSet() {
 
         String text = "select * from order_details;";
         executeStatement(text);
@@ -49,7 +50,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected List<OrderDetails> all() {
+    public List<OrderDetails> all() {
 
         ResultSet set = allResultSet();
         try{
@@ -69,7 +70,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected void update(OrderDetails orderDetails) {
+    public void update(OrderDetails orderDetails) {
 
         String text = "";
         text += String.format("update order_details set order_id = %d, product_id = %d, price = %.2f, quantity = %d where id = %d", orderDetails.getOrderId(), orderDetails.getProductId(), orderDetails.getPrice(), orderDetails.getQuantity(), orderDetails.getId());
@@ -77,7 +78,7 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
     }
 
     @Override
-    protected boolean contains(OrderDetails orderDetails) {
+    public boolean contains(OrderDetails orderDetails) {
 
         String text = String.format("select * from order_DETAILS where id = %d", orderDetails.getId());
         executeStatement(text);
@@ -95,5 +96,75 @@ public class OrderDetailsRepository extends Repository<OrderDetails> {
             return false;
         }
         return false;
+    }
+
+    public List<OrderDetails> getOrderDetailsByOrderId(int orderID){
+
+        String text = "";
+        text += String.format("select * from order_details where order_id = %d;", orderID);
+        executeStatement(text);
+
+        try {
+            ResultSet set = statement.getResultSet();
+            List<OrderDetails> ordersDetails = new ArrayList<>();
+
+            while(set.next()){
+
+                OrderDetails orderDetail = new OrderDetails(set.getInt(1), set.getInt(2), set.getInt(3), set.getDouble(4), set.getInt(5));
+                ordersDetails.add(orderDetail);
+            }
+            return ordersDetails;
+
+        }catch (SQLException e){
+
+            System.out.println("eroare la getOrderDetailsByOrderId");
+        }
+        return null;
+    }
+
+    public void deleteByOrderIdAndProductID(int orderId, int productId){
+
+        String text = String.format("delete from order_details where order_id = %d and product_id = %d ;", orderId, productId);
+        executeStatement(text);
+    }
+
+    public void deleteByOrderId(int orderID){
+
+        String text = String.format("delete from order_details where order_id = %d ;", orderID);
+        executeStatement(text);
+    }
+
+    public HashMap<Integer, Integer> getProductIdAndQuantity(){
+
+        String text = String.format("select product_id, quantity from order_details;");
+
+        try{
+
+            executeStatement(text);
+            ResultSet set = statement.getResultSet();
+
+            HashMap<Integer, Integer> map = new HashMap<>();
+            while(set.next()){
+
+                int productId = set.getInt(1);
+                int quantity = set.getInt(2);
+
+                if (map.containsKey(productId)){
+
+                    map.put(productId, map.get(productId) + quantity);
+                }
+                else{
+
+                    map.put(productId, quantity);
+                }
+            }
+
+            return map;
+
+        }catch (Exception e){
+
+            System.out.println("eroare la " + text);
+            return null;
+        }
     }
 }

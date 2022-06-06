@@ -1,4 +1,4 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import java.time.LocalDate;
 

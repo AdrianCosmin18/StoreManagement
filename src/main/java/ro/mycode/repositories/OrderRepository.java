@@ -1,13 +1,12 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
-import ro.mycode.classes.Order;
+import ro.mycode.modele.Order;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class OrderRepository extends Repository<Order>{
@@ -18,7 +17,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected void insert(Order order) {
+    public void insert(Order order) {
 
         String text = "";
         text += "insert into orders (customer_id, ammount,order_address,order_date) values(";
@@ -29,7 +28,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected void delete(int id) {
+    public void delete(int id) {
 
         String text = "";
         text += String.format("delete from orders where id = %d ;", id);
@@ -37,7 +36,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected ResultSet allResultSet() {
+    public ResultSet allResultSet() {
 
         executeStatement("select * from orders");
         try{
@@ -51,7 +50,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected List<Order> all() {
+    public List<Order> all() {
 
         ResultSet set = allResultSet();
         ArrayList<Order> orders = new ArrayList<>();
@@ -73,7 +72,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected void update(Order order) {
+    public void update(Order order) {
 
         String text = "";
         text += String.format("update orders set customer_id = %d, ammount = %.2f, order_address = '%s', order_date = '%s' where id = %d", order.getCustomerId(), order.getAmmount(), order.getOrderAddress(), order.getOrderDate(), order.getId());
@@ -81,7 +80,7 @@ public class OrderRepository extends Repository<Order>{
     }
 
     @Override
-    protected boolean contains(Order order) {
+    public boolean contains(Order order) {
 
         String text = String.format("select * from orders where id = %d", order.getId());
         executeStatement(text);
@@ -101,4 +100,28 @@ public class OrderRepository extends Repository<Order>{
         }
         return false;
     }
+
+    public Order getOrderByCustomerIdAndDateAndAmmount0(int customerID, String date){
+
+        String text = "";
+        text += String.format("select * from orders where customer_id = %d and order_date = '%s' and ammount = 0;", customerID, date);
+
+        executeStatement(text);
+        try{
+
+            ResultSet set = statement.getResultSet();
+            if(set.next()){
+
+                LocalDate date2 = Util.toDate(set.getString(5));
+                Order order = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), date2);
+                return order;
+            }
+
+        }catch (Exception e){
+
+            System.out.println("Eroare la getOrderByCustomerIdAndDate");
+        }
+        return null;
+    }
+
 }

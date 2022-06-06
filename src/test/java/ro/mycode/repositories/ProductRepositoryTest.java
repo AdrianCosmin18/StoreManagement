@@ -1,7 +1,8 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import org.junit.jupiter.api.Test;
-import ro.mycode.classes.Product;
+import ro.mycode.modele.Product;
+import ro.mycode.exceptions.ProductNotFoundException;
 
 import java.util.List;
 
@@ -68,11 +69,27 @@ class ProductRepositoryTest {
     }
 
     @Test
-    public void testGetIdByName(){
+    public void testGetIdByName() throws ProductNotFoundException {
 
         ProductRepository productRepository = new ProductRepository();
-        assertEquals(4, productRepository.getIdByName("Paine neagra"));
+        //assertEquals(4, productRepository.getIdByName("Paine neagra"));
+        try {
+            assertEquals(4, productRepository.getIdByName("PAINE NEAGRA"));
+
+            assertThrows(ProductNotFoundException.class,()->{
+
+
+                productRepository.getIdByName("asdasdasda");
+
+            });
+        } catch (ProductNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        //System.out.println(productRepository.getIdByName("PAIN NEAGRA"));
     }
+
+
 
     @Test
     public void testGetProductById(){
@@ -80,6 +97,17 @@ class ProductRepositoryTest {
         ProductRepository productRepository = new ProductRepository();
         Product product = productRepository.getProductById(4);
         System.out.println(product);
+    }
+
+    @Test
+    public void testUpdateStock(){
+
+        ProductRepository productRepository = new ProductRepository();
+        Product p = productRepository.getProductById(6);
+        System.out.println(p.getStock());
+        productRepository.updateStock("Kinder Bueno", 10);
+        System.out.println(productRepository.getProductById(6).getStock());
+
     }
 
 

@@ -1,9 +1,7 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import org.junit.jupiter.api.Test;
-import ro.mycode.classes.OrderDetails;
-
-import static org.junit.jupiter.api.Assertions.*;
+import ro.mycode.modele.OrderDetails;
 
 class OrderDetailsRepositoryTest {
 
@@ -18,7 +16,7 @@ class OrderDetailsRepositoryTest {
     public void testInsert(){
 
         OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
-        orderDetailsRepository.insert(new OrderDetails(1,7,5.9,2));
+        orderDetailsRepository.insert(new OrderDetails(1,6,5.9,2));
     }
 
     @Test
@@ -42,6 +40,27 @@ class OrderDetailsRepositoryTest {
 
         OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
         System.out.println(orderDetailsRepository.contains(new OrderDetails(20, 0, 9, 0, 3)));
+    }
+
+    @Test
+    public void testgetOrderDetailsByOrderId(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        System.out.println(orderDetailsRepository.getOrderDetailsByOrderId(1));
+    }
+
+    @Test
+    public void testDeleteByOrderIdAndProductId(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        orderDetailsRepository.deleteByOrderIdAndProductID(16, 6);
+    }
+
+    @Test
+    public void testGetProductIdAndQuantity(){
+
+        OrderDetailsRepository orderDetailsRepository = new OrderDetailsRepository();
+        System.out.println(orderDetailsRepository.getProductIdAndQuantity());
     }
 
 }

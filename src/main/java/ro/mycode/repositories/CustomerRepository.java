@@ -1,7 +1,6 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
-import ro.mycode.classes.Customer;
-import ro.mycode.classes.Product;
+import ro.mycode.modele.Customer;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -16,18 +15,18 @@ public class CustomerRepository extends Repository<Customer>{
     }
 
     @Override
-    protected void insert(Customer customer){
+    public void insert(Customer customer){
 
         String text = "";
-        text += "insert into customers (email,password,full_name,billing_address,phone) values(";
-        text += String.format("'%s', '%s', '%s', '%s', '%s'", customer.getEmail(), customer.getPassword(), customer.getFullName(), customer.getBillingAddress(), customer.getPhone());
+        text += "insert into customers (email,password,full_name,rol,phone) values(";
+        text += String.format("'%s', '%s', '%s', '%s', '%s'", customer.getEmail(), customer.getPassword(), customer.getFullName(), customer.getRol(), customer.getPhone());
         text += ");";
 
         executeStatement(text);
     }
 
     @Override
-    protected void delete(int id) {
+    public void delete(int id) {
 
         String text = "";
         text += String.format("delete from customers where id = %d ;", id);
@@ -35,7 +34,7 @@ public class CustomerRepository extends Repository<Customer>{
     }
 
     @Override
-    protected ResultSet allResultSet() {
+    public ResultSet allResultSet() {
 
         String text = "";
         text += "select * from customers;";
@@ -52,7 +51,7 @@ public class CustomerRepository extends Repository<Customer>{
     }
 
     @Override
-    protected List<Customer> all() {
+    public List<Customer> all() {
 
         ResultSet set = allResultSet();
         List<Customer> customers = new ArrayList<>();
@@ -72,15 +71,15 @@ public class CustomerRepository extends Repository<Customer>{
     }
 
     @Override
-    protected void update(Customer customer) {
+    public void update(Customer customer) {
 
         String text = "";
-        text += String.format("update customers set email = '%s', password = '%s', full_name = '%s', billing_address = '%s', phone = '%s' where id = %d ;", customer.getEmail(), customer.getPassword(), customer.getFullName(), customer.getBillingAddress(), customer.getPhone(), customer.getId());
+        text += String.format("update customers set email = '%s', password = '%s', full_name = '%s', rol = '%s', phone = '%s' where id = %d ;", customer.getEmail(), customer.getPassword(), customer.getFullName(), customer.getRol(), customer.getPhone(), customer.getId());
         executeStatement(text);
     }
 
     @Override
-    protected boolean contains(Customer customer) {
+    public boolean contains(Customer customer) {
 
         String text = "";
         text += String.format("select * from customers where id = %d ;", customer.getId());
@@ -102,7 +101,7 @@ public class CustomerRepository extends Repository<Customer>{
         }
     }
 
-    protected int getIdByName(String name){
+    public int getIdByName(String name){
 
         String text = "";
         text += String.format("select id from customers where full_name = '%s'", name);
@@ -124,7 +123,7 @@ public class CustomerRepository extends Repository<Customer>{
         return -1;
     }
 
-    protected Customer getCustomerByID(int id){
+    public Customer getCustomerByID(int id){
 
         String text = "";
         text += String.format("select * from customers where id = %d;", id);

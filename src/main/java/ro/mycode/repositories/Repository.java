@@ -1,4 +1,4 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import java.sql.*;
 import java.util.List;
@@ -43,5 +43,6 @@ public abstract class Repository<T> {
     protected abstract void update(T t);
 
     protected abstract boolean contains(T t);
+
 
 }

@@ -1,6 +1,7 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
-import ro.mycode.classes.Product;
+import ro.mycode.modele.Product;
+import ro.mycode.exceptions.ProductNotFoundException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +16,7 @@ public class ProductRepository extends Repository<Product>{
     }
 
     @Override
-    protected void insert(Product product){
+    public void insert(Product product){
 
         String insertTo = "";
         insertTo += "insert into products ";
@@ -28,7 +29,7 @@ public class ProductRepository extends Repository<Product>{
     }
 
     @Override
-    protected void delete(int id) {
+    public void delete(int id) {
 
         String deleteTo = "";
         deleteTo += "delete from products where id = ";
@@ -39,7 +40,7 @@ public class ProductRepository extends Repository<Product>{
     }
 
     @Override
-    protected ResultSet allResultSet() {
+    public ResultSet allResultSet() {
         executeStatement("select * from products;");
         try{
 
@@ -52,7 +53,7 @@ public class ProductRepository extends Repository<Product>{
     }
 
     @Override
-    protected List<Product> all(){
+    public List<Product> all(){
 
         ResultSet set = allResultSet();
         List<Product> products = new ArrayList<>();
@@ -72,7 +73,7 @@ public class ProductRepository extends Repository<Product>{
     }
 
     @Override
-    protected void update(Product product){
+    public void update(Product product){
 
         String modifyTo = "";
         modifyTo += String.format("update products set name = '%s', price =  %.2f, description = '%s', stock = %d", product.getName(), product.getPrice(), product.getDescription(), product.getStock());
@@ -82,7 +83,7 @@ public class ProductRepository extends Repository<Product>{
         executeStatement(modifyTo);
     }
 
-    protected void deleteBelowAnInt(int x){
+    public void deleteBelowAnInt(int x){
 
         String deleteTo = "";
         deleteTo += String.format("delete from products where stock <= %d ", x);
@@ -91,7 +92,7 @@ public class ProductRepository extends Repository<Product>{
         executeStatement(deleteTo);
     }
 
-    protected boolean contains(Product product){
+    public boolean contains(Product product){
         try{
             String text = "";
             text += String.format("select * from products where id = %d ", product.getId());
@@ -111,29 +112,38 @@ public class ProductRepository extends Repository<Product>{
         return false;
     }
 
-    protected int getIdByName(String name){
+    public int getIdByName(String name) throws ProductNotFoundException{
 
         String text = "";
         text += String.format("select id from products where name = '%s'; ", name);
         executeStatement(text);
+
         try{
             ResultSet set = statement.getResultSet();
             List<Integer> ids = new ArrayList<>();
             while(set.next()){
-
                 ids.add(set.getInt(1));
             }
 
+            if(ids.isEmpty()){
+
+                throw  new ProductNotFoundException(name);
+            }
             return ids.get(0);
 
         }catch (SQLException e){
-
-            System.out.println("eroare la getIdByName");
+            e.printStackTrace();
             return -1;
+        }catch (ProductNotFoundException productNotFoundException){
+            productNotFoundException.printStackTrace();
+            return  -1;
         }
+
+
+
     }
 
-    protected Product getProductById(int id){
+    public Product getProductById(int id){
 
         String text = "";
         text += String.format("select * from products where id = %d ;", id);
@@ -154,5 +164,18 @@ public class ProductRepository extends Repository<Product>{
 
         return null;
     }
+
+    public void updateStock(String name, int nr){
+
+        String text = String.format("update products set stock = stock - %d where name = '%s';", nr, name);
+        executeStatement(text);
+    }
+
+    public void increaseStock(String name, int nr){
+
+        String text = String.format("update products set stock = stock + %d where name = '%s';", nr, name);
+        executeStatement(text);
+    }
+
 
 }

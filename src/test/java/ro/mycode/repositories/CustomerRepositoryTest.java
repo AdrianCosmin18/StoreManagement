@@ -1,9 +1,8 @@
-package ro.mycode.Repositories;
+package ro.mycode.repositories;
 
 import org.junit.jupiter.api.Test;
-import ro.mycode.classes.Customer;
+import ro.mycode.modele.Customer;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -52,7 +51,7 @@ class CustomerRepositoryTest {
     public void testGetIdByName(){
 
         CustomerRepository customerRepository = new CustomerRepository();
-        System.out.println(customerRepository.getIdByName("Fairfax Lerner"));
+        System.out.println(customerRepository.getIdByName("Nedelcu Adrian Cosmin"));
     }
 
     @Test

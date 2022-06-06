@@ -1,4 +1,4 @@
-package ro.mycode.classes;
+package ro.mycode.modele;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,14 +13,14 @@ public class Customer {
     private String email;
     private String password;
     private String fullName;
-    private String billingAddress;
+    private String rol;
     private String phone;
 
-    public Customer(String email, String password, String fullName, String billingAddress, String phone) {
+    public Customer(String email, String password, String fullName, String rol, String phone) {
         this.email = email;
         this.password = password;
         this.fullName = fullName;
-        this.billingAddress = billingAddress;
+        this.rol = rol;
         this.phone = phone;
     }
 
@@ -37,9 +37,9 @@ public class Customer {
         String text = "";
         text += "\nID: " + id;
         text += "\nemail: "+ email;
-        text += "\npassword: "+password;
-        text += "\nfullname: "+fullName;
-        text += "\naddress: "+billingAddress;
+        text += "\npassword: "+ password;
+        text += "\nfullname: "+ fullName;
+        text += "\nRol: "+ rol;
         text += "\nphone: "+ phone;
 
         return text;
