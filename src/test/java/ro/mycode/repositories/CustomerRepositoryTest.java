@@ -61,4 +61,14 @@ class CustomerRepositoryTest {
         System.out.println(customerRepository.getCustomerByID(1));
     }
 
+    @Test
+    public void testgetClientByNameAndPassword(){
+
+        CustomerRepository customerRepository = new CustomerRepository();
+        System.out.println(customerRepository.getClientByNameAndPassword("Tripp Bromehed","9TBPWux1MW"));
+        System.out.println(customerRepository.existsName("Tripp Bromehe"));
+    }
+
+
+
 }

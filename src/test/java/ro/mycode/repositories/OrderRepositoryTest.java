@@ -54,5 +54,12 @@ class OrderRepositoryTest {
         System.out.println(LocalDate.now());
     }
 
+    @Test
+    public void testGetOrderByMaxOrderDate(){
+
+        OrderRepository orderRepository = new OrderRepository();
+        System.out.println(orderRepository.getOrderByMaxOrderDate());
+    }
+
 
 }

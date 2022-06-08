@@ -2,6 +2,8 @@ package ro.mycode.view;
 
 import ro.mycode.exceptions.ProductNotFoundException;
 import ro.mycode.modele.Customer;
+import ro.mycode.modele.Order;
+import ro.mycode.modele.OrderDetails;
 import ro.mycode.modele.Product;
 
 import java.util.*;
@@ -47,6 +49,9 @@ public class ViewAdmin extends View{
 
             switch (alegere){
 
+                case 1:lastCommandRegistered();
+                break;
+
                 case 2: bestSoldProduct();
                 break;
 
@@ -82,6 +87,31 @@ public class ViewAdmin extends View{
 
 
     private void lastCommandRegistered(){
+
+        Order o = orderRepository.getOrderByMaxOrderDate();
+
+        if(o != null){
+
+            System.out.println(o);
+
+            List<OrderDetails> ordersDetails = orderDetailsRepository.getOrderDetailsByOrderId(o.getId());
+            List<Product> products = new ArrayList<>();
+            for(OrderDetails orderDetails:ordersDetails){
+
+                products.add(productRepository.getProductById(orderDetails.getProductId()));
+            }
+
+            System.out.println("Continut: ");
+            for(int i=0; i< products.size(); i++){
+
+                System.out.println(products.get(i).getName() + "    " + products.get(i).getPrice() + " x " + ordersDetails.get(i).getQuantity());
+            }
+        }
+        else{
+            System.out.println("nu exista o ultima comanda");
+        }
+
+
 
     }
 
@@ -289,7 +319,6 @@ public class ViewAdmin extends View{
         }
     }
 
-    //eroare cand incerc sa transform din client in admin, nu mi-l modifica dar face afisarea bine
     private void updateCustomer(){
 
         System.out.println("Nume client modificat: ");
@@ -297,6 +326,7 @@ public class ViewAdmin extends View{
 
         if(customerRepository.getIdByName(nume) != -1){
 
+            int id = customerRepository.getIdByName(nume);
             System.out.println("email: ");
             String email = read.nextLine();
 
@@ -319,7 +349,7 @@ public class ViewAdmin extends View{
             }
 
             System.out.println("rol: " + rol);
-            customerRepository.update(new Customer(email,password,nume,rol, phone));
+            customerRepository.update(new Customer(id, email,password,nume,rol, phone));
             System.out.println("persoana modificata cu succes !!!");
         }
         else{

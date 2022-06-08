@@ -124,4 +124,27 @@ public class OrderRepository extends Repository<Order>{
         return null;
     }
 
+    public Order getOrderByMaxOrderDate(){
+
+        String text = "select id, customer_id, ammount, order_address, max(order_date) from orders;";
+        try{
+
+            executeStatement(text);
+            ResultSet set = statement.getResultSet();
+            if(set.next()){
+
+                LocalDate localDate = Util.toDate(set.getString(5));
+                Order o = new Order(set.getInt(1), set.getInt(2), set.getDouble(3), set.getString(4), localDate);
+                return o;
+            }
+
+
+        }catch(Exception e){
+
+            System.out.println("eroare la " + text);
+        }
+
+        return null;
+    }
+
 }

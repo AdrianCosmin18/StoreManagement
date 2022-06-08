@@ -145,4 +145,42 @@ public class CustomerRepository extends Repository<Customer>{
 
         return null;
     }
+
+    public Customer getClientByNameAndPassword(String nume, String parola){
+
+        String text = String.format("select * from customers where full_name = '%s' and password = '%s';", nume, parola);
+        executeStatement(text);
+
+        try {
+            ResultSet set = statement.getResultSet();
+            if(set.next()){
+
+                Customer customer = new Customer(set.getInt(1),set.getString(2), set.getString(3), set.getString(4), set.getString(5), set.getString(6));
+                return customer;
+            }
+        }catch (SQLException e){
+
+            System.out.println("eroare la " + text);
+        }
+        return null;
+    }
+
+    public boolean existsName(String name){
+
+        executeStatement(String.format("select * from customers where full_name = '%s' ;", name));
+
+        try{
+
+            ResultSet set = statement.getResultSet();
+            if(set.next()){
+
+                return true;
+            }
+        }catch (Exception e){
+
+            System.out.println("eroare la existsName");
+        }
+
+        return false;
+    }
 }
