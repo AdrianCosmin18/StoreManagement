@@ -1,4 +1,4 @@
-# StoreManagement
+# Store Management
 
 I created an app which presents concepts specific to OOP in Java combined with MySQL. 
 I created services that use JDBC to store the data in a database.
